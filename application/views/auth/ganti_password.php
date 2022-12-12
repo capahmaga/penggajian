@@ -57,9 +57,14 @@
                     </button>
                     <hr>
                   </form>
-                  <div class="text-center">
-                    <a class="small" href="register.html">Create an Account!</a>
-                  </div>
+                  <?php
+                  if ($this->session->userdata('id_user')) { ?>
+                    <a href="<?= base_url() ?>auth/cekLogin" class="btn btn-danger btn-user btn-block">Batal</a>
+                  <?php } else { ?>
+                    <div class="text-center">
+                      <a class="small" href="register.html">Create an Account!</a>
+                    </div>
+                  <?php } ?>
                 </div>
               </div>
             </div>

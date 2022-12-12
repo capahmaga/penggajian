@@ -32,6 +32,6 @@ class Intensif_model extends CI_Model
         ];
 
         $this->db->where('id_intensif', $id_intensif);
-        $this->db->update('jabatan', $arr);
+        $this->db->update('intensif', $arr);
     }
 }

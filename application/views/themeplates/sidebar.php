@@ -17,18 +17,45 @@
       <!-- Divider -->
       <hr class="sidebar-divider my-0">
 
+
+      <!--- Dashboard Pegawai -->
       <?php if ($this->session->userdata('role') == 2) : ?>
         <li class="nav-item<?= $this->uri->segment(2) == 'dashboard' ? ' active' : ''; ?>">
           <a class="nav-link" href="<?= base_url('pegawai/dashboard'); ?>">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
         </li>
+        <li class="nav-item <?= $this->uri->segment(2) == 'absensipegawai' || $this->uri->segment(2) == 'pengajuanpegawai'  ? ' active' : ''; ?>">
+          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAbsensi" aria-expanded="true" aria-controls="collapseAbsensi">
+            <i class="fas fa-fw fa-money-check-alt"></i>
+            <span>Absensi</span>
+          </a>
+          <div id="collapseAbsensi" class="collapse<?= $this->uri->segment(2) == 'absensipegawai' || $this->uri->segment(2) == 'pengajuanpegawai'  ? ' active' : '';  ?>" aria-labelledby="headingAbsensi" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+              <a class="collapse-item<?= $this->uri->segment(2) == 'absensipegawai' ? ' active' : ''; ?>" href="<?= base_url('pegawai/absensipegawai'); ?>">Absensi</a>
+              <a class="collapse-item<?= $this->uri->segment(2) == 'pengajuanpegawai' ? ' active' : ''; ?>" href="<?= base_url('pegawai/pengajuanpegawai'); ?>">Pengajuan</a>
+            </div>
+          </div>
+        </li>
         <li class="nav-item<?= $this->uri->segment(2) == 'gaji' ? ' active' : ''; ?>">
           <a class="nav-link" href="<?= base_url('pegawai/gaji'); ?>">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Data Gaji</span></a>
         </li>
+        <li class="nav-item <?= $this->uri->segment(2) == 'tambahuser' || $this->uri->segment(2) == 'gantipassword'  ? ' active' : ''; ?>">
+          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+            <i class="fas fa-fw fa-money-check-alt"></i>
+            <span>Setting User</span>
+          </a>
+          <div id="collapseUtilities" class="collapse<?= $this->uri->segment(2) == 'gantipassword'  ? ' show' : ''; ?>" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+              <a class="collapse-item<?= $this->uri->segment(2) == 'gantipassword' ? ' active' : ''; ?>" href="<?= base_url('auth/ganti_password'); ?>">Ganti Password</a>
+            </div>
+          </div>
+        </li>
       <?php endif; ?>
+
+      <!--- END Dashboard Pegawai -->
 
       <?php if ($this->session->userdata('role') == 1) : ?>
         <!-- Nav Item - Dashboard -->
@@ -82,13 +109,23 @@
             </div>
           </div>
         </li>
+
+        <!-- Nav Item - Charts -->
+        <li class="nav-item <?= $this->uri->segment(2) == 'tambahuser' || $this->uri->segment(2) == 'gantipassword'  ? ' active' : ''; ?>">
+          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+            <i class="fas fa-fw fa-money-check-alt"></i>
+            <span>Setting</span>
+          </a>
+          <div id="collapseUtilities" class="collapse<?= $this->uri->segment(2) == 'tambahuser' || $this->uri->segment(2) == 'gantipassword'  ? ' show' : ''; ?>" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+              <a class="collapse-item<?= $this->uri->segment(2) == 'tambahuser' ? ' active' : ''; ?>" href="<?= base_url('admin/tambahUser'); ?>">Data Absensi</a>
+              <a class="collapse-item<?= $this->uri->segment(2) == 'gantipassword' ? ' active' : ''; ?>" href="<?= base_url('admin/gantipassword'); ?>">Data Gaji</a>
+            </div>
+          </div>
+        </li>
+
       <?php endif; ?>
-      <!-- Nav Item - Charts -->
-      <li class="nav-item">
-        <a class="nav-link" href="<?= base_url('admin/pegawai/tambahUser'); ?>">
-          <i class="fas fa-fw fa-cog"></i>
-          <span>Setting User</span></a>
-      </li>
+
 
       <li class="nav-item">
         <a class="nav-link" href="<?= base_url('auth/logout'); ?>">

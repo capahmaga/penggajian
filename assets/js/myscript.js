@@ -92,7 +92,7 @@ $(function() {
 	$('.tombolTambahPotonganGaji').click(function() {
 		$('#formModalLabelPotonganGaji').html('Tambah Data Potongan');
 		$('.modal-footer button[type=submit]').html('Tambah');
-
+	
 	});
 
 	$('.tombolUbahPotonganGaji').click(function() {
@@ -117,5 +117,38 @@ $(function() {
 		})
 	});
 	// Akhir Halaman Potongan Gaji
+
+
+	// Halaman Setting Intensif Gaji
+	$('.tombolTambahIntensif').click(function() {
+		$('#id_intensif').val('');
+		$('#intensif').val('');
+		$('#jml_intensif').val('');
+		$('#formModalLabelIntensif').html('Tambah Data Intensif');
+		$('.modal-footer button[type=submit]').html('Tambah');
+		
+	});
+
+	$('.tombolUbahIntensif').click(function() {
+		$('#formModalLabelIntensif').html('Ubah Data Intensif');
+		$('.modal-footer button[type=submit]').html('Ubah');
+		$('.modal-body form').attr('action', GetBase()+'/admin/intensif/ubahintensif');
+
+		const id = $(this).data('id');
+
+		$.ajax({
+			url: GetBase()+'/admin/intensif/getintensif',
+			method: 'post',
+			dataType: 'json',
+			data: {id: id},
+			success: function(data) {
+				console.log(data);
+				$('#id_intensif').val(data.id_intensif);
+				$('#intensif').val(data.intensif);
+				$('#jml_intensif').val(data.jml_intensif);
+			}
+		})
+	});
+	// Akhir Halaman Intensif Gaji
 
 });

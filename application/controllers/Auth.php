@@ -65,7 +65,7 @@ class Auth extends CI_Controller
 		if ($this->session->userdata('role') == 1) {
 			redirect('admin/dashboard');
 		} else if ($this->session->userdata('role') == 2) {
-			redirect('pegawai/dashboard_pegawai');
+			redirect('pegawai/dashboard');
 		}
 	}
 
