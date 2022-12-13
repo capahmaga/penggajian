@@ -1,7 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Absensi_model extends CI_Model {
+class Absensi_model extends CI_Model
+{
 	public function joinPegawaiJabatan($bulanTahun)
 	{
 		$this->db->select('*');
@@ -25,10 +26,25 @@ class Absensi_model extends CI_Model {
 	{
 		$jumlahData = count($data);
 		// var_dump($jumlahData); die;
-		if($jumlahData > 0) {
+		if ($jumlahData > 0) {
 			$this->db->insert_batch('kehadiran', $data);
 		}
 	}
 
+	public function getPegawaiByUserID($id_user)
+	{
+		$this->db->select('*');
+		$this->db->from('pegawai');
+		$this->db->where('id_user', $id_user);
+		return $this->db->get()->row();
+	}
 
+	public function presensi_masuk($data)
+	{
+		$jumlahData = count($data);
+		// var_dump($jumlahData); die;
+		if ($jumlahData > 0) {
+			$this->db->insert_batch('kehadiran_detail', $data);
+		}
+	}
 }

@@ -19,18 +19,18 @@
 
 
       <!--- Dashboard Pegawai -->
-      <?php if ($this->session->userdata('role') == 2) : ?>
+      <?php if ($this->session->userdata('id_roles') == 2) : ?>
         <li class="nav-item<?= $this->uri->segment(2) == 'dashboard' ? ' active' : ''; ?>">
           <a class="nav-link" href="<?= base_url('pegawai/dashboard'); ?>">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
         </li>
-        <li class="nav-item <?= $this->uri->segment(2) == 'absensipegawai' || $this->uri->segment(2) == 'pengajuanpegawai'  ? ' active' : ''; ?>">
+        <li class="nav-item <?= $this->uri->segment(2) == 'pegawai' || $this->uri->segment(2) == 'absensipegawai' || $this->uri->segment(2) == 'pengajuanpegawai'  ? ' active' : ''; ?>">
           <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAbsensi" aria-expanded="true" aria-controls="collapseAbsensi">
-            <i class="fas fa-fw fa-money-check-alt"></i>
+            <i class="fas fa-fw fa-database"></i>
             <span>Absensi</span>
           </a>
-          <div id="collapseAbsensi" class="collapse<?= $this->uri->segment(2) == 'absensipegawai' || $this->uri->segment(2) == 'pengajuanpegawai'  ? ' active' : '';  ?>" aria-labelledby="headingAbsensi" data-parent="#accordionSidebar">
+          <div id="collapseAbsensi" class="collapse<?= $this->uri->segment(2) == 'absensipegawai' || $this->uri->segment(2) == 'pengajuanpegawai'  ? ' show' : '';  ?>" aria-labelledby="headingAbsensi" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
               <a class="collapse-item<?= $this->uri->segment(2) == 'absensipegawai' ? ' active' : ''; ?>" href="<?= base_url('pegawai/absensipegawai'); ?>">Absensi</a>
               <a class="collapse-item<?= $this->uri->segment(2) == 'pengajuanpegawai' ? ' active' : ''; ?>" href="<?= base_url('pegawai/pengajuanpegawai'); ?>">Pengajuan</a>
@@ -57,7 +57,7 @@
 
       <!--- END Dashboard Pegawai -->
 
-      <?php if ($this->session->userdata('role') == 1) : ?>
+      <?php if ($this->session->userdata('id_roles') == 1) : ?>
         <!-- Nav Item - Dashboard -->
         <li class="nav-item<?= $this->uri->segment(2) == 'dashboard' ? ' active' : ''; ?>">
           <a class="nav-link" href="<?= base_url('admin/dashboard'); ?>">

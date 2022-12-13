@@ -10,7 +10,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Presensi Masuk</h5>
                     <p class="card-text">Silahkan Lakukan Presensi Masuk</p>
-                    <a href="<?= base_url('pegawai/presensi/masuk'); ?> " class="btn btn-primary">Presensi Sekarang!</a>
+                    <a href="<?= base_url('pegawai/absensipegawai/presensi_masuk'); ?> " class="btn btn-primary">Presensi Sekarang!</a>
                 </div>
             </div>
         </div>

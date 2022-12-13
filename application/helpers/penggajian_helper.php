@@ -3,9 +3,9 @@
 function cekSession()
 {
 	$ci = get_instance();
-	if(!$ci->session->userdata('role') == '1') {
+	if (!$ci->session->userdata('id_roles') == '1') {
 		redirect('auth');
-	} else if(!$ci->session->userdata('role') == '2') {
+	} else if (!$ci->session->userdata('id_roles') == '2') {
 		redirect('auth');
 	}
 }
@@ -13,7 +13,7 @@ function cekSession()
 function cekMenu()
 {
 	$ci = get_instance();
-	if($ci->session->userdata('role') == 2) {
+	if ($ci->session->userdata('id_roles') == 2) {
 		redirect('pegawai/dashboard');
 	}
 }

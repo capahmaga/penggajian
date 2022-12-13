@@ -33,10 +33,10 @@ class Auth extends CI_Controller
 				$data = [
 					'id_user' => $user['id_user'],
 					'username' => $user['username'],
-					'role' => $user['role']
+					'id_roles' => $user['id_roles']
 				];
 				$this->session->set_userdata($data);
-				if ($user['role'] == 1) {
+				if ($user['id_roles'] == 1) {
 					redirect('admin/dashboard');
 				} else {
 					redirect('pegawai/dashboard');
@@ -54,7 +54,7 @@ class Auth extends CI_Controller
 	public function logout()
 	{
 		$this->session->unset_userdata('id_user');
-		$this->session->unset_userdata('role');
+		$this->session->unset_userdata('id_roles');
 		$this->session->unset_userdata('username');
 		$this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert"><i class="fas fa-info-circle"></i> Anda Berhasil Logout.</div>');
 		redirect('auth');
@@ -62,9 +62,9 @@ class Auth extends CI_Controller
 
 	public function cekLogin()
 	{
-		if ($this->session->userdata('role') == 1) {
+		if ($this->session->userdata('id_roles') == 1) {
 			redirect('admin/dashboard');
-		} else if ($this->session->userdata('role') == 2) {
+		} else if ($this->session->userdata('id_roles') == 2) {
 			redirect('pegawai/dashboard');
 		}
 	}

@@ -1,7 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Auth_model extends CI_Model {
+class Auth_model extends CI_Model
+{
 	public function getAuthUserPegawai($username)
 	{
 		$this->db->select('*');
@@ -25,10 +26,18 @@ class Auth_model extends CI_Model {
 	{
 		$jumlahData = count($data);
 		// var_dump($jumlahData); die;
-		if($jumlahData > 0) {
+		if ($jumlahData > 0) {
 			$this->db->insert_batch('kehadiran', $data);
 		}
 	}
 
-
+	public function getServerDate()
+	{
+		$str_query = "select NOW() as 'Now'";
+		$query = $this->db->query($str_query);
+		$results = $query->result_array();
+		$results = array_shift($results);
+		$now = $results['Now'];
+		return  $now;
+	}
 }

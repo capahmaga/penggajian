@@ -6,6 +6,7 @@ class Absensipegawai extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		cekSession();
 		$this->load->model('Absensi_model');
 		$this->load->model('Auth_model');
 	}
@@ -29,30 +30,34 @@ class Absensipegawai extends CI_Controller
 		$data['user'] = $this->Auth_model->getAuthUserPegawai($this->session->userdata('username'))->row_array();
 		$this->load->view('themeplates/header', $data);
 		$this->load->view('themeplates/sidebar', $data);
-		$this->load->view('admin/absensi/index', $data);
+		$this->load->view('pegawai/absensi/index', $data);
 		$this->load->view('themeplates/footer');
 	}
 
-	public function input_absensi()
+	public function presensi_masuk()
 	{
-		$data['title'] = 'Input Absensi';
-		if ((isset($_POST['bulan']) && $_POST['bulan'] != null) && (isset($_POST['tahun']) && $_POST['tahun'] != null)) {
-			$bulan = $this->input->post('bulan');
-			$tahun = $this->input->post('tahun');
-			$bulanTahun = $bulan . $tahun;
-		} else {
-			$bulan = date('m');
-			$tahun = date('Y');
-			$bulanTahun = $bulan . $tahun;
-		}
+		$data['user'] = $this->Absensi_model->getPegawaiByUserID($this->session->userdata('id_user'));
+		$id_pegawai = $data['user']->id_pegawai;
+		$nik = $data['user']->nik;
+		$now = $this->Auth_model->getServerdate();
 
-		$data['inputAbsensi'] = $this->Absensi_model->InputjoinPegawaiJabatan($bulanTahun);
-		// $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
-		$data['user'] = $this->Auth_model->getAuthUserPegawai($this->session->userdata('username'))->row_array();
-		$this->load->view('themeplates/header', $data);
-		$this->load->view('themeplates/sidebar', $data);
-		$this->load->view('admin/absensi/input_absensi', $data);
-		$this->load->view('themeplates/footer');
+		$data['kehadiran'] = [
+			'tanggal' => $now,
+			'nik' => $nik,
+			'id_pegawai' => $id_pegawai,
+			'hadir' => 1,
+			'sakit' => 0,
+			'alpa' => 0,
+			'waktu_absen' => $now,
+			'waktu_pulang' => null
+		];
+		$this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert"><i class="fas fa-info-circle"></i> Data Kehadiran <strong>Berhasil Ditambahkan.</strong></div>');
+		redirect('pegawai/absensipegawai');
+
+		// $this->load->view('themeplates/header', $data);
+		// $this->load->view('themeplates/sidebar', $data);
+		// $this->load->view('admin/absensi/input_absensi', $data);
+		// $this->load->view('themeplates/footer');
 	}
 
 	public function aksi_input_kehadiran()
