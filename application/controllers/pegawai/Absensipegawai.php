@@ -14,19 +14,21 @@ class Absensipegawai extends CI_Controller
 	public function index()
 	{
 		$data['title'] = 'Presensi Pegawai';
-		if ((isset($_POST['bulan']) && $_POST['bulan'] != null) && (isset($_POST['tahun']) && $_POST['tahun'] != null)) {
-			$bulan = $this->input->post('bulan');
-			$tahun = $this->input->post('tahun');
-			$bulanTahun = $bulan . $tahun;
-		} else {
-			$bulan = date('m');
-			$tahun = date('Y');
-			$bulanTahun = $bulan . $tahun;
-		}
+		$data['user'] = $this->Absensi_model->getPegawaiByUserID($this->session->userdata('id_user'));
+		$data['status'] = $this->Absensi_model->cekPresensiStatus($data['user']->id_pegawai, date("Y-m-d", strtotime($this->Auth_model->getServerdate())));
 
-		$data['absensi'] = $this->Absensi_model->joinPegawaiJabatan($bulanTahun);
-		// var_dump($data['absensi']); die;
-		// $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+		if (count((array)$data['status']) > 0) {
+			if (($data['status']->sakit) == '1') {
+				$data['sakit'] = "1";
+			} else {
+				$this->session->set_userdata('waktu_absen', $data['status']->waktu_absen);
+				$this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert"><i class="fas fa-info-circle"></i> <strong>Anda Telah Melakukan Presensi Pada ' . $data['status']->waktu_absen . '</strong></div>');
+				if ($data['status']->waktu_pulang) {
+					$this->session->set_userdata('waktu_pulang',  $data['status']->waktu_pulang);
+					$this->session->set_flashdata('pesan_keluar', '<div class="alert alert-success" role="alert"><i class="fas fa-info-circle"></i> <strong>Berhasil Melakukan Presensi Keluar Pada ' .  $data['status']->waktu_pulang . '</strong></div>');
+				}
+			}
+		}
 		$data['user'] = $this->Auth_model->getAuthUserPegawai($this->session->userdata('username'))->row_array();
 		$this->load->view('themeplates/header', $data);
 		$this->load->view('themeplates/sidebar', $data);
@@ -42,7 +44,7 @@ class Absensipegawai extends CI_Controller
 		$now = $this->Auth_model->getServerdate();
 
 		$data['kehadiran'] = [
-			'tanggal' => $now,
+			'tanggal' => date("Y-m-d", strtotime($now)),
 			'nik' => $nik,
 			'id_pegawai' => $id_pegawai,
 			'hadir' => 1,
@@ -51,38 +53,43 @@ class Absensipegawai extends CI_Controller
 			'waktu_absen' => $now,
 			'waktu_pulang' => null
 		];
-		$this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert"><i class="fas fa-info-circle"></i> Data Kehadiran <strong>Berhasil Ditambahkan.</strong></div>');
-		redirect('pegawai/absensipegawai');
+		$data['status'] = $this->Absensi_model->cekPresensiStatus($id_pegawai, date("Y-m-d", strtotime($now)));
 
-		// $this->load->view('themeplates/header', $data);
-		// $this->load->view('themeplates/sidebar', $data);
-		// $this->load->view('admin/absensi/input_absensi', $data);
-		// $this->load->view('themeplates/footer');
-	}
-
-	public function aksi_input_kehadiran()
-	{
-		$post = $this->input->post();
-		// var_dump($post); die;
-		foreach ($post['bulan'] as $key => $value) {
-			if ($post['bulan'][$key] != null || $post['nik'][$key] != null) {
-				$data[] =
-					[
-						'bulan' => $post['bulan'][$key],
-						'nik' => $post['nik'][$key],
-						'id_pegawai' => $post['id_pegawai'][$key],
-						'jk_kehadiran' => $post['jk_pegawai'][$key],
-						'id_jabatan' => $post['id_jabatan'][$key],
-						'hadir' => $post['hadir'][$key],
-						'sakit' => $post['sakit'][$key],
-						'alpa' => $post['alpa'][$key]
-					];
-			}
+		if (count((array)$data['status']) > 0) {
+			$this->session->set_userdata('waktu_absen', $data['status']->waktu_absen);
+			$this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert"><i class="fas fa-info-circle"></i> <strong>Anda Telah Melakukan Presensi Pada ' . $data['status']->waktu_absen . '</strong></div>');
+			redirect('pegawai/absensipegawai');
+		} else {
+			$this->Absensi_model->presensi_masuk($data['kehadiran']);
+			$this->session->set_userdata('waktu_absen', date("Y-m-d", strtotime($now)));
+			$this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert"><i class="fas fa-info-circle"></i> Data Kehadiran <strong>Berhasil Ditambahkan.</strong></div>');
+			redirect('pegawai/absensipegawai');
 		}
-		$this->Absensi_model->tambah_batch($data);
-		$this->session->set_flashdata('pesan', '<div class="alert alert-success" role="alert"><i class="fas fa-info-circle"></i> Data Kehadiran <strong>Berhasil Ditambahkan.</strong></div>');
-		redirect('admin/absensi');
 	}
+
+	public function presensi_keluar()
+	{
+		$data['user'] = $this->Absensi_model->getPegawaiByUserID($this->session->userdata('id_user'));
+		$id_pegawai = $data['user']->id_pegawai;
+		$now = $this->Auth_model->getServerdate();
+
+		$data['kehadiran'] = [
+			'waktu_pulang' => $now
+		];
+		$data['status'] = $this->Absensi_model->cekPresensiStatus($id_pegawai, date("Y-m-d", strtotime($now)));
+
+		if (count((array)$data['status']) > 0) {
+			// sudah melakukan presensi masuk
+			$this->Absensi_model->presensi_keluar($data['kehadiran'], $id_pegawai, date("Y-m-d", strtotime($now)));
+			$this->session->set_userdata('waktu_pulang', date("Y-m-d", strtotime($now)));
+			$this->session->set_flashdata('pesan_keluar', '<div class="alert alert-success" role="alert"><i class="fas fa-info-circle"></i> <strong>Berhasil Melakukan Presensi Keluar Pada ' . date("Y-m-d", strtotime($now)) . '</strong></div>');
+			redirect('pegawai/absensipegawai');
+		} else {
+			$this->session->set_flashdata('pesan_keluar', '<div class="alert alert-success" role="alert"><i class="fas fa-info-circle"></i> <strong>Lakukan Proses Presensi Masuk Terlebih Dahulu.</strong></div>');
+			redirect('pegawai/absensipegawai');
+		}
+	}
+
 
 	public function laporan_absensi()
 	{
@@ -93,22 +100,5 @@ class Absensipegawai extends CI_Controller
 		$this->load->view('themeplates/sidebar', $data);
 		$this->load->view('admin/absensi/laporan_absensi', $data);
 		$this->load->view('themeplates/footer');
-	}
-
-	public function cetaklaporanabsensi()
-	{
-		$data['title'] = 'Cetak Absensi Pegawai';
-		if ((isset($_POST['bulan']) && $_POST['bulan'] != null) && (isset($_POST['tahun']) && $_POST['tahun'] != null)) {
-			$bulan = $this->input->post('bulan');
-			$tahun = $this->input->post('tahun');
-			$bulanTahun = $bulan . $tahun;
-		} else {
-			$bulan = date('m');
-			$tahun = date('Y');
-			$bulanTahun = $bulan . $tahun;
-		}
-		$data['absensi'] = $this->Absensi_model->joinPegawaiJabatan($bulanTahun);
-		$this->load->view('themeplates/header', $data);
-		$this->load->view('admin/cetak/cetak_absensi', $data);
 	}
 }

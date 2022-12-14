@@ -44,7 +44,27 @@ class Absensi_model extends CI_Model
 		$jumlahData = count($data);
 		// var_dump($jumlahData); die;
 		if ($jumlahData > 0) {
-			$this->db->insert_batch('kehadiran_detail', $data);
+			$this->db->insert('kehadiran_detail', $data);
 		}
+	}
+
+	public function presensi_keluar($data, $id_pegawai, $tanggal_absen)
+	{
+		$jumlahData = count($data);
+		// var_dump($jumlahData); die;
+		if ($jumlahData > 0) {
+			$this->db->where('id_pegawai', $id_pegawai);
+			$this->db->where('tanggal', $tanggal_absen);
+			$this->db->update('kehadiran_detail', $data);
+		}
+	}
+
+	public function cekPresensiStatus($id_pegawai, $tanggal_absen)
+	{
+		$this->db->select('*');
+		$this->db->from('kehadiran_detail');
+		$this->db->where('id_pegawai', $id_pegawai);
+		$this->db->where('tanggal', $tanggal_absen);
+		return $this->db->get()->row();
 	}
 }

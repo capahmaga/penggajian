@@ -13,7 +13,7 @@ class Pengajuanpegawai extends CI_Controller
 
 	public function index()
 	{
-		$data['title'] = 'Presensi Pegawai';
+		$data['title'] = 'Pengajuan Izin dan Cuti';
 		if ((isset($_POST['bulan']) && $_POST['bulan'] != null) && (isset($_POST['tahun']) && $_POST['tahun'] != null)) {
 			$bulan = $this->input->post('bulan');
 			$tahun = $this->input->post('tahun');
