@@ -13,6 +13,7 @@ class Absensipegawai extends CI_Controller
 
 	public function index()
 	{
+		$data['sakit'] = "0";
 		$data['title'] = 'Presensi Pegawai';
 		$data['user'] = $this->Absensi_model->getPegawaiByUserID($this->session->userdata('id_user'));
 		$data['status'] = $this->Absensi_model->cekPresensiStatus($data['user']->id_pegawai, date("Y-m-d", strtotime($this->Auth_model->getServerdate())));
@@ -29,6 +30,8 @@ class Absensipegawai extends CI_Controller
 				}
 			}
 		}
+
+
 		$data['user'] = $this->Auth_model->getAuthUserPegawai($this->session->userdata('username'))->row_array();
 		$this->load->view('themeplates/header', $data);
 		$this->load->view('themeplates/sidebar', $data);

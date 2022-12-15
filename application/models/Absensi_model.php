@@ -67,4 +67,27 @@ class Absensi_model extends CI_Model
 		$this->db->where('tanggal', $tanggal_absen);
 		return $this->db->get()->row();
 	}
+
+	public function getPengajuanAbsensi($id_pegawai, $bulan, $tahun)
+	{
+		$this->db->select('*');
+		$this->db->from('kehadiran_detail');
+		$this->db->join('pegawai', 'kehadiran_detail.id_pegawai = pegawai.id_pegawai');
+		$this->db->where('kehadiran_detail.id_pegawai', $id_pegawai);
+		$this->db->where('YEAR(tanggal)=' . $tahun);
+		$this->db->where('MONTH(tanggal)=' . $bulan);
+		$this->db->where('(sakit=1 or izin=1)');
+		return $this->db->get()->result_array();
+	}
+
+	public function getPegawaiAbsensi($id_pegawai, $bulan, $tahun)
+	{
+		$this->db->select('*');
+		$this->db->from('kehadiran_detail');
+		$this->db->join('pegawai', 'kehadiran_detail.id_pegawai = pegawai.id_pegawai');
+		$this->db->where('kehadiran_detail.id_pegawai', $id_pegawai);
+		$this->db->where('YEAR(tanggal)=' . $tahun);
+		$this->db->where('MONTH(tanggal)=' . $bulan);
+		return $this->db->get()->result_array();
+	}
 }
