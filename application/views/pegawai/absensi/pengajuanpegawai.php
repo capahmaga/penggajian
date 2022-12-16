@@ -117,70 +117,40 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="" method="post" enctype="multipart/form-data">
-                    <input type="hidden" id="id_pegawai" name="id_pegawai">
+                <form action="<?= base_url('pegawai/pengajuanpegawai/savePengajuanIzin'); ?> " method="post" id="formPengajuanIzin" enctype="multipart/form-data">
+                    <input type="hidden" id="id_pegawai" name="id_pegawai" value=<?= $user['id_pegawai']; ?>>
                     <div class="form-group">
                         <label for="nik">NIK</label>
-                        <input type="number" name="nik" id="nik" class="form-control" value="<?= set_value('nik'); ?>">
-                        <small class="muted text-danger"><?= form_error('nik'); ?></small>
+                        <input type="number" name="input_nik" id="input_nik" class="form-control" value="<?= $user['nik']; ?>">
+                        <span id="nik_error" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label for="nama_pegawai">Nama Pegawai</label>
-                        <input type="text" name="nama_pegawai" id="nama_pegawai" class="form-control" value="<?= set_value('nama_pegawai'); ?>">
-                        <small class="muted text-danger"><?= form_error('nama_pegawai'); ?></small>
+                        <input type="text" name="input_nama_pegawai" id="input_nama_pegawai" class="form-control" value="<?= $user['nama_pegawai']; ?>">
+                        <span id="nama_pegawai_error" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label for="jk">Jenis Kelamin</label>
-                        <select name="jk" id="jk" class="form-control">
-                            <option value=""> -- Pilih Kelamin --</option>
-                            <option value="L">Pria</option>
-                            <option value="P">Perempuan</option>
+                        <label for="jenis_pengajuan">Jenis Pengajuan</label>
+                        <select name="input_jenis_pengajuan" id="input_jenis_pengajuan" class="form-control">
+                            <option value=""> -- Pilih Pengajuan --</option>
+                            <option value="1">Sakit</option>
+                            <option value="2">Izin</option>
                         </select>
-                        <small class="muted text-danger"><?= form_error('jk'); ?></small>
+                        <span id="jenis_pengajuan_error" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label for="nama_jabatan">Nama Jabatan</label>
-                        <select name="nama_jabatan" id="nama_jabatan" class="form-control">
-                            <option value="">-- Pilih Jabatan --</option>
-                            <?php foreach ($jabatan as $j) : ?>
-                                <option value="<?= $j['id_jabatan']; ?>"><?= $j['nama_jabatan']; ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                        <small class="muted text-danger"><?= form_error('nama_jabatan'); ?></small>
+                        <label for="tanggal_mulai">Tanggal Mulai</label>
+                        <input type="date" name="input_tanggal_mulai" id="input_tanggal_mulai" class="form-control" value="<?= (set_value('tanggal_mulai') ? date("Y-m-d", strtotime(set_value('tanggal_mulai'))) : date("Y-m-d")); ?>">
+                        <span id="tanggal_mulai_error" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label for="user">User</label>
-                        <select name="user" id="user" class="form-control">
-                            <option value="">-- Pilih User --</option>
-                            <?php foreach ($users as $j) : ?>
-                                <option value="<?= $j['id_user']; ?>"><?= $j['username']; ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                        <small class="muted text-danger"><?= form_error('nama_jabatan'); ?></small>
-                    </div>
-                    <div class="form-group">
-                        <label for="tgl_masuk">Tanggal Masuk</label>
-                        <input type="date" name="tgl_masuk" id="tgl_masuk" class="form-control" value="<?= date('Y-m-d'); ?>">
-                        <small class="muted text-danger"><?= form_error('tgl_masuk'); ?></small>
-                    </div>
-                    <div class="form-group">
-                        <label for="status">Status</label>
-                        <select name="status" id="status" class="form-control">
-                            <option value=""> -- Pilih Status --</option>
-                            <option value="1">Pegawai Tetap</option>
-                            <option value="0">Pegawai Tidak Tetap</option>
-                        </select>
-                        <small class="muted text-danger"><?= form_error('status'); ?></small>
-                    </div>
-                    <div class="form-group">
-                        <label for="photo">Photo</label><br>
-                        <img src="" width="100" id="editTampilPhoto">
-                        <input type="file" name="photo" id="photo" class="form-control-file">
-                        <input type="hidden" name="photoLama" id="photoLama" class="form-control">
+                        <label for="tanggal_akhir">Tanggal Akhir</label>
+                        <input type="date" name="input_tanggal_akhir" id="input_tanggal_akhir" class="form-control" value="<?= (set_value('tanggal_akhir') ? date("Y-m-d", strtotime(set_value('tanggal_akhir'))) : date("Y-m-d")); ?>">
+                        <span id="tanggal_akhir_error" class="text-danger"></span>
                     </div>
                     <div class="modal-footer">
                         <button type="reset" class="btn btn-info" data-dismiss="modal">Kembali</button>
-                        <button type="submit" class="btn btn-primary">Tambah</button>
+                        <button type="button" id="btnSimpanIzin" class="btn btn-primary">Simpan</button>
                     </div>
                 </form>
             </div>

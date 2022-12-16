@@ -90,4 +90,13 @@ class Absensi_model extends CI_Model
 		$this->db->where('MONTH(tanggal)=' . $bulan);
 		return $this->db->get()->result_array();
 	}
+
+	public function simpan_izin($data)
+	{
+		$jumlahData = count($data);
+		// var_dump($jumlahData); die;
+		if ($jumlahData > 0) {
+			$this->db->insert('kehadiran_detail', $data);
+		}
+	}
 }

@@ -4,6 +4,93 @@ function GetBase() {
     return baseUrl;
   }
 
+  $(document).ready(function () {
+	var pengajuanIzinForm = document.getElementById("formPengajuanIzin");
+  if(pengajuanIzinForm){
+	const btnSimpanIzin = document.getElementById("btnSimpanIzin");
+	if(btnSimpanIzin){
+		btnSimpanIzin.addEventListener("click", validateIzinForm);
+	  }
+  };
+  
+  });
+
+  function validateIzinForm(){
+	$.ajax({
+		type: "post",
+		url: GetBase()+'/pegawai/pengajuanpegawai/validation_form',
+		data: {
+			nik: $("#input_nik").val(),
+			nama_pegawai: $("#input_nama_pegawai").val(),
+			jenis_pengajuan: $("#input_jenis_pengajuan").val(),
+		 },
+		datatype: "json",
+		success: function (response) {
+		  var data = jQuery.parseJSON(response);
+		  if(data.error)
+		  {
+		   if(data.nik_error != '')
+		   {
+			$('#nik_error').html(data.nik_error);
+		   }
+		   else
+		   {
+			$('#nik_error').html('');
+		   }
+		   if(data.nama_pegawai_error != '')
+		   {
+			$('#nama_pegawai_error').html(data.nama_pegawai_error);
+		   }
+		   else
+		   {
+			$('#nama_pegawai_error').html('');
+		   }
+		   if(data.jenis_pengajuan_error != '')
+		   {
+			$('#jenis_pengajuan_error').html(data.jenis_pengajuan_error);
+		   }
+		   else
+		   {
+			$('#jenis_pengajuan_error').html('');
+		   }
+		   if(data.tanggal_mulai_error != '')
+		   {
+			$('#tanggal_mulai_error').html(data.tanggal_mulai_error);
+		   }
+		   else
+		   {
+			$('#tanggal_mulai_error').html('');
+		   }
+		   if(data.tanggal_akhir_error != '')
+		   {
+			$('#tanggal_akhir_error').html(data.tanggal_akhir_error);
+		   }
+		   else
+		   {
+			$('#tanggal_akhir_error').html('');
+		   }
+		  }
+		  
+		  if(data.success)
+		  {
+			alert("Masuk success");
+		   $('#success_message').html(data.success);
+		   $('#nik_error').html('');
+		   $('#nama_pegawai_error').html('');
+		   $('#jenis_pengajuan_error').html('');
+		   $('#tanggal_mulai_error').html('');
+		   $('#tanggal_akhir_error').html('');
+		   document.getElementById("formPengajuanIzin").submit();
+		  }
+		},
+		error: function (xhr, thrownError) {
+		  alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+		  return "1";
+		},
+	  });
+};
+  
+
 $(function() {
 	// Halaman Jabatan
 	$('.tombolTambahJabatan').click(function() {
@@ -150,5 +237,7 @@ $(function() {
 		})
 	});
 	// Akhir Halaman Intensif Gaji
+
+
 
 });
