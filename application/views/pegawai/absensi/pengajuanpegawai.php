@@ -14,6 +14,14 @@
                 <div class="card-header bg-primary text-white">
                     Filter Data Absensi Pegawai
                 </div>
+                <?php if ($this->session->flashdata('pesan')) : ?>
+                    <div class="alert alert-success alert-dismissible show fade" role="alert">
+                        <?= $this->session->flashdata('pesan');; ?>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                <?php endif; ?>
                 <div class="card-body">
                     <form class="form-inline" method="post" action="">
                         <div class="form-group mb-2">
@@ -47,7 +55,7 @@
                             </select>
                         </div>
                         <button type="submit" class="btn btn-primary mb-2 ml-auto"><i class="fas fa-eye"></i> Tampilkan Data</button>
-                        <a href="#" class="btn btn-success mb-2 ml-2" data-toggle="modal" data-target="#formPengajuanIzin"><i class="fas fa-plus"></i> Input Pengajuan Izin</a>
+                        <a href="#" class="btn btn-success mb-2 ml-2" data-toggle="modal" data-target="#modalformPengajuanIzin"><i class="fas fa-plus"></i> Input Pengajuan Izin</a>
                     </form>
                 </div>
             </div>
@@ -107,7 +115,7 @@
 <!-- End of Main Content -->
 
 <!-- Modal -->
-<div class="modal fade" id="formPengajuanIzin" tabindex="-1" aria-labelledby="formLabelPengajuanIzin" aria-hidden="true">
+<div class="modal fade" id="modalformPengajuanIzin" tabindex="-1" aria-labelledby="formLabelPengajuanIzin" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -148,8 +156,11 @@
                         <input type="date" name="input_tanggal_akhir" id="input_tanggal_akhir" class="form-control" value="<?= (set_value('tanggal_akhir') ? date("Y-m-d", strtotime(set_value('tanggal_akhir'))) : date("Y-m-d")); ?>">
                         <span id="tanggal_akhir_error" class="text-danger"></span>
                     </div>
+                    <div class="form-group">
+                        <span id="tanggal_izin_error" class="text-danger"></span>
+                    </div>
                     <div class="modal-footer">
-                        <button type="reset" class="btn btn-info" data-dismiss="modal">Kembali</button>
+                        <button type="reset" id="btnCloseIzin" class="btn btn-info" data-dismiss="modal">Kembali</button>
                         <button type="button" id="btnSimpanIzin" class="btn btn-primary">Simpan</button>
                     </div>
                 </form>

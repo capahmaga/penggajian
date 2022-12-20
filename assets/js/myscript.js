@@ -11,9 +11,25 @@ function GetBase() {
 	if(btnSimpanIzin){
 		btnSimpanIzin.addEventListener("click", validateIzinForm);
 	  }
+	
+	  const btnCloseIzin = document.getElementById("btnCloseIzin");
+	  if(btnCloseIzin){
+		btnCloseIzin.addEventListener("click",clearModalFormPengajuanIzin);
+	  }
+
   };
+
+//   window.setTimeout(function() {
+// 	$(".alert").fadeTo(500, 0).slideUp(500, function(){
+// 		$(this).remove();
+// 	});
+// }, 4000);
   
   });
+
+  function clearModalFormPengajuanIzin(){
+	$('#formPengajuanIzin').trigger("reset");
+  }
 
   function validateIzinForm(){
 	$.ajax({
@@ -73,14 +89,7 @@ function GetBase() {
 		  
 		  if(data.success)
 		  {
-			alert("Masuk success");
-		   $('#success_message').html(data.success);
-		   $('#nik_error').html('');
-		   $('#nama_pegawai_error').html('');
-		   $('#jenis_pengajuan_error').html('');
-		   $('#tanggal_mulai_error').html('');
-		   $('#tanggal_akhir_error').html('');
-		   document.getElementById("formPengajuanIzin").submit();
+			validateTanggalIzin()
 		  }
 		},
 		error: function (xhr, thrownError) {
@@ -90,6 +99,34 @@ function GetBase() {
 	  });
 };
   
+function validateTanggalIzin(){
+	$.ajax({
+		type: "post",
+		url: GetBase()+'/pegawai/pengajuanpegawai/validate_tanggal',
+		data: {
+			id_pegawai: $("#input_nik").val(),
+			input_tanggal_mulai: $("#input_tanggal_mulai").val(),
+			input_tanggal_akhir: $("#input_tanggal_akhir").val(),
+		 },
+		datatype: "json",
+		success: function (response) {
+		  var data = jQuery.parseJSON(response);	
+		  console.log(data);	  
+		  if(data.error)
+		  {
+			$('#tanggal_izin_error').html();
+			document.getElementById("formPengajuanIzin").submit();		   
+		  }else{		
+			$('#tanggal_izin_error').html('Sudah melakukan presensi pada tanggal tersebut');
+		  }
+		},
+		error: function (xhr, thrownError) {
+		  alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+		  return "1";
+		},
+	  });
+};
+
 
 $(function() {
 	// Halaman Jabatan

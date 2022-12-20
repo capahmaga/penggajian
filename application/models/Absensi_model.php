@@ -99,4 +99,12 @@ class Absensi_model extends CI_Model
 			$this->db->insert('kehadiran_detail', $data);
 		}
 	}
+	public function tambah_izin_batch($data)
+	{
+		$jumlahData = count($data);
+		// var_dump($jumlahData); die;
+		if ($jumlahData > 0) {
+			$this->db->insert_batch('kehadiran_detail', $data);
+		}
+	}
 }
