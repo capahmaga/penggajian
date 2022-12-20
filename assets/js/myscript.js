@@ -28,6 +28,12 @@ function GetBase() {
   });
 
   function clearModalFormPengajuanIzin(){
+	$('#nik_error').html('');
+	$('#nama_pegawai_error').html('');
+	$('#jenis_pengajuan_error').html('');
+	$('#tanggal_mulai_error').html('');
+	$('#tanggal_akhir_error').html('');
+	$('#tanggal_izin_error').html('');
 	$('#formPengajuanIzin').trigger("reset");
   }
 
@@ -89,6 +95,11 @@ function GetBase() {
 		  
 		  if(data.success)
 		  {
+			$('#nik_error').html('');
+			$('#nama_pegawai_error').html('');
+			$('#jenis_pengajuan_error').html('');
+			$('#tanggal_mulai_error').html('');
+			$('#tanggal_akhir_error').html('');
 			validateTanggalIzin()
 		  }
 		},
@@ -114,7 +125,8 @@ function validateTanggalIzin(){
 		  console.log(data);	  
 		  if(data.error)
 		  {
-			$('#tanggal_izin_error').html();
+			
+			$('#tanggal_izin_error').html('');
 			document.getElementById("formPengajuanIzin").submit();		   
 		  }else{		
 			$('#tanggal_izin_error').html('Sudah melakukan presensi pada tanggal tersebut');
