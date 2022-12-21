@@ -6,6 +6,7 @@ class Pegawai extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		cekSession();
 		$this->load->model('Pegawai_model');
 		$this->load->model('Auth_model');
 	}

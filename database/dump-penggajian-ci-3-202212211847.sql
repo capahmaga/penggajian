@@ -27,7 +27,7 @@ CREATE TABLE `intensif` (
   `intensif` varchar(100) NOT NULL,
   `jml_intensif` decimal(10,0) NOT NULL,
   PRIMARY KEY (`id_intensif`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -36,6 +36,7 @@ CREATE TABLE `intensif` (
 
 LOCK TABLES `intensif` WRITE;
 /*!40000 ALTER TABLE `intensif` DISABLE KEYS */;
+INSERT INTO `intensif` VALUES (1,'Full Hadir',200000),(2,'Transportasi',50000);
 /*!40000 ALTER TABLE `intensif` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -111,11 +112,12 @@ CREATE TABLE `kehadiran_detail` (
   `id_pegawai` int(11) NOT NULL,
   `hadir` bit(1) NOT NULL DEFAULT b'0',
   `sakit` bit(1) NOT NULL DEFAULT b'0',
+  `izin` bit(1) NOT NULL DEFAULT b'0',
   `alpa` int(11) NOT NULL DEFAULT 0,
   `waktu_absen` datetime NOT NULL,
   `waktu_pulang` datetime DEFAULT NULL,
   PRIMARY KEY (`id_kehadiran_detail`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -124,6 +126,7 @@ CREATE TABLE `kehadiran_detail` (
 
 LOCK TABLES `kehadiran_detail` WRITE;
 /*!40000 ALTER TABLE `kehadiran_detail` DISABLE KEYS */;
+INSERT INTO `kehadiran_detail` VALUES (1,'2022-12-13','875647598',6,'','\0','\0',0,'2022-12-14 14:53:48',NULL),(2,'2022-12-12','875647598',6,'','\0','',0,'2022-12-14 15:28:02',NULL),(3,'2022-12-14','875647598',6,'\0','','\0',0,'2022-12-14 15:43:51','2022-12-14 16:51:10'),(4,'2022-12-20','875647598',6,'\0','','\0',0,'2022-12-20 16:32:49','2022-12-20 16:32:49'),(5,'2022-12-21','875647598',6,'\0','','\0',0,'2022-12-20 16:32:49','2022-12-20 16:32:49'),(6,'2022-12-22','875647598',6,'\0','','\0',0,'2022-12-20 16:32:49','2022-12-20 16:32:49'),(7,'2022-12-22','875647598',6,'\0','\0','',0,'2022-12-20 16:35:32','2022-12-20 16:35:32'),(8,'2022-12-20','875647598',6,'\0','\0','',0,'2022-12-20 16:51:45','2022-12-20 16:51:45'),(9,'2022-12-20','875647598',6,'\0','','\0',0,'2022-12-20 16:56:30','2022-12-20 16:56:30'),(10,'2022-12-20','875647598',6,'\0','\0','',0,'2022-12-20 17:33:48','2022-12-20 17:33:48'),(11,'2022-12-20','875647598',6,'\0','','\0',0,'2022-12-20 17:34:16','2022-12-20 17:34:16');
 /*!40000 ALTER TABLE `kehadiran_detail` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -155,7 +158,7 @@ CREATE TABLE `pegawai` (
 
 LOCK TABLES `pegawai` WRITE;
 /*!40000 ALTER TABLE `pegawai` DISABLE KEYS */;
-INSERT INTO `pegawai` VALUES (3,2147483647,'Muhammad Syifaaudz Dzihni Al Hamdi','P',5,'2020-09-10','1','0ed2dc4b-560c-47bc-ac3f-147d15b862cd.jpg',1),(6,875647598,'Rozi Amrin','L',2,'2020-09-28','1','avatar.png',0),(8,875647837,'Muhammad Ridho','L',1,'2020-10-13','1','prod-2.jpg',6);
+INSERT INTO `pegawai` VALUES (3,2147483647,'Muhammad Syifaaudz Dzihni Al Hamdi','P',5,'2020-09-10','1','0ed2dc4b-560c-47bc-ac3f-147d15b862cd.jpg',1),(6,875647598,'Rozi Amrin','L',2,'2020-09-28','1','avatar.png',2),(8,875647837,'Muhammad Ridho','L',1,'2020-10-13','1','prod-2.jpg',5);
 /*!40000 ALTER TABLE `pegawai` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -180,8 +183,32 @@ CREATE TABLE `potongan_gaji` (
 
 LOCK TABLES `potongan_gaji` WRITE;
 /*!40000 ALTER TABLE `potongan_gaji` DISABLE KEYS */;
-INSERT INTO `potongan_gaji` VALUES (2,'Sakit',0),(3,'Izin',50000),(4,'Alpa',100000);
+INSERT INTO `potongan_gaji` VALUES (0,'Absen',100000),(2,'Sakit',0),(3,'Izin',50000),(4,'Alpa',100000);
 /*!40000 ALTER TABLE `potongan_gaji` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `roles`
+--
+
+DROP TABLE IF EXISTS `roles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `roles` (
+  `id_roles` int(11) NOT NULL AUTO_INCREMENT,
+  `nama_roles` varchar(100) NOT NULL,
+  PRIMARY KEY (`id_roles`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `roles`
+--
+
+LOCK TABLES `roles` WRITE;
+/*!40000 ALTER TABLE `roles` DISABLE KEYS */;
+INSERT INTO `roles` VALUES (1,'Admin'),(2,'Pegawai');
+/*!40000 ALTER TABLE `roles` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -192,12 +219,14 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user` (
-  `id_user` int(11) NOT NULL,
+  `id_user` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL,
   `password` varchar(256) NOT NULL,
-  `role` enum('1','2') NOT NULL COMMENT '1 = admin\r\n2 = pegawai',
-  `foto_user` varchar(200) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `id_roles` int(11) NOT NULL COMMENT '1 = admin\r\n2 = pegawai',
+  `status` bit(1) NOT NULL DEFAULT b'1',
+  `id_pegawai` int(11) NOT NULL,
+  PRIMARY KEY (`id_user`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -206,7 +235,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'admin','d033e22ae348aeb5660fc2140aec35850c4da997','1','ridho.jpg'),(2,'pegawai','d033e22ae348aeb5660fc2140aec35850c4da997','2','pegawai.jpg');
+INSERT INTO `user` VALUES (1,'admin','d033e22ae348aeb5660fc2140aec35850c4da997',1,'',0),(2,'pegawai','d033e22ae348aeb5660fc2140aec35850c4da997',2,'',0),(5,'karyawan','87c78b8da768468c4f3826791496385536c11dad',2,'',8);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -223,4 +252,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-12-07 15:52:40
+-- Dump completed on 2022-12-21 18:47:51

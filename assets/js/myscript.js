@@ -19,6 +19,21 @@ function GetBase() {
 
   };
 
+  var formModalUser = document.getElementById("formModalUser");
+  if(formModalUser){
+	const btnSimpanIzin = document.getElementById("btnSimpanIzin");
+	if(btnSimpanIzin){
+		btnSimpanIzin.addEventListener("click", validateIzinForm);
+	  }
+	
+	  const btnCloseModalUser = document.getElementById("btnCloseModalUser");
+	  if(btnCloseModalUser){
+		btnCloseModalUser.addEventListener("click",clearModalformModalUser);
+	  }
+
+  };
+
+
 //   window.setTimeout(function() {
 // 	$(".alert").fadeTo(500, 0).slideUp(500, function(){
 // 		$(this).remove();
@@ -36,6 +51,11 @@ function GetBase() {
 	$('#tanggal_izin_error').html('');
 	$('#formPengajuanIzin').trigger("reset");
   }
+
+  function clearModalformModalUser(){
+	$('#formModalUser').trigger("reset");
+  }
+
 
   function validateIzinForm(){
 	$.ajax({
@@ -287,6 +307,37 @@ $(function() {
 	});
 	// Akhir Halaman Intensif Gaji
 
+	// Halaman Tambah User
+	$('.tombolTambahUser').click(function() {
+		$('#id_intensif').val('');
+		$('#intensif').val('');
+		$('#jml_intensif').val('');
+		$('#formModalLabelUser').html('Tambah Data Pengguna');
+		$('.modal-footer button[type=submit]').html('Tambah');
+		
+	});
 
+	$('.tombolUbahUser').click(function() {
+		$('#formModalLabelUser').html('Ubah Data Pengguna');
+		$('.modal-footer button[type=submit]').html('Ubah');
+		$('.modal-body form').attr('action', GetBase()+'/admin/user/ubahUser');
+
+		const id = $(this).data('id');
+
+		$.ajax({
+			url: GetBase()+'/admin/user/getUserByID',
+			method: 'post',
+			dataType: 'json',
+			data: {id: id},
+			success: function(data) {
+				console.log(data);
+				$('#id_user').val(data.id_user);
+				$('#username').val(data.username);
+				$('#nama_pegawai').val(data.id_pegawai);
+				$('#roles').val(data.id_roles);
+			}
+		})
+	});
+	// Akhir Halaman Tambah User
 
 });

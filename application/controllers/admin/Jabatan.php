@@ -6,6 +6,7 @@ class Jabatan extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		cekSession();
 		$this->load->model('Jabatan_model');
 		$this->load->model('Auth_model');
 	}

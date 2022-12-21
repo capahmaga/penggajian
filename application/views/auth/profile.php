@@ -36,7 +36,7 @@
               <div class="col-lg">
                 <div class="p-5">
                   <div class="text-center">
-                    <h1 class="h4 text-gray-900 mb-4">Profil <?= $user['role'] == 1 ? 'Admin' : 'Pegawai'; ?></h1>
+                    <h1 class="h4 text-gray-900 mb-4">Profil <?= $user['id_roles'] == 1 ? 'Admin' : 'Pegawai'; ?></h1>
                   </div>
                   <div class="card mb-3" style="max-width: 540px;">
                     <div class="row no-gutters">

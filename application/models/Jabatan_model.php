@@ -1,7 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Jabatan_model extends CI_Model {
+class Jabatan_model extends CI_Model
+{
 	public function getAllJabatan()
 	{
 		return $this->db->get('jabatan')->result_array();
@@ -37,6 +38,4 @@ class Jabatan_model extends CI_Model {
 		$this->db->where('id_jabatan', $id_jabatan);
 		$this->db->update('jabatan', $arr);
 	}
-
-
 }

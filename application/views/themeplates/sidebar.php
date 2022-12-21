@@ -43,17 +43,6 @@
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Data Gaji</span></a>
         </li>
-        <li class="nav-item <?= $this->uri->segment(2) == 'tambahuser' || $this->uri->segment(2) == 'gantipassword'  ? ' active' : ''; ?>">
-          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
-            <i class="fas fa-fw fa-money-check-alt"></i>
-            <span>Setting User</span>
-          </a>
-          <div id="collapseUtilities" class="collapse<?= $this->uri->segment(2) == 'gantipassword'  ? ' show' : ''; ?>" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-              <a class="collapse-item<?= $this->uri->segment(2) == 'gantipassword' ? ' active' : ''; ?>" href="<?= base_url('auth/ganti_password'); ?>">Ganti Password</a>
-            </div>
-          </div>
-        </li>
       <?php endif; ?>
 
       <!--- END Dashboard Pegawai -->
@@ -112,15 +101,14 @@
         </li>
 
         <!-- Nav Item - Charts -->
-        <li class="nav-item <?= $this->uri->segment(2) == 'tambahuser' || $this->uri->segment(2) == 'gantipassword'  ? ' active' : ''; ?>">
-          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+        <li class="nav-item <?= $this->uri->segment(2) == 'user' ? ' active' : ''; ?>">
+          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSetting" aria-expanded="true" aria-controls="collapseSetting">
             <i class="fas fa-fw fa-money-check-alt"></i>
             <span>Setting</span>
           </a>
-          <div id="collapseUtilities" class="collapse<?= $this->uri->segment(2) == 'tambahuser' || $this->uri->segment(2) == 'gantipassword'  ? ' show' : ''; ?>" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+          <div id="collapseSetting" class="collapse<?= $this->uri->segment(2) == 'user' || $this->uri->segment(2) == 'gantipassword'  ? ' show' : ''; ?>" aria-labelledby="headingSetting" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-              <a class="collapse-item<?= $this->uri->segment(2) == 'tambahuser' ? ' active' : ''; ?>" href="<?= base_url('admin/tambahUser'); ?>">Data Absensi</a>
-              <a class="collapse-item<?= $this->uri->segment(2) == 'gantipassword' ? ' active' : ''; ?>" href="<?= base_url('admin/gantipassword'); ?>">Data Gaji</a>
+              <a class="collapse-item<?= $this->uri->segment(2) == 'user' ? ' active' : ''; ?>" href="<?= base_url('admin/user/'); ?>">Tambah Pengguna</a>
             </div>
           </div>
         </li>
